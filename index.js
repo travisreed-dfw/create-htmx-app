@@ -71,12 +71,12 @@ async function setupProject() {
         process.exit(1);
     }
 
-    execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
+    execSync('npm install express', { cwd: projectPath, stdio: 'inherit' });
 
     console.log(`Project ${projectName} created successfully.`);
     console.log(`Run the following commands to get started:`);
     console.log(`cd ${projectName}`);
-    console.log(`npx serve public`);
+    console.log(`node src/index.js`);
 }
 
 setupProject();
