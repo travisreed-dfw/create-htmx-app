@@ -59,7 +59,21 @@ async function downloadHTMX(dest) {
     });
 }
 
+function updatePackageJson(projectPath, projectName) {
+    const packageJsonPath = path.join(projectPath, 'package.json');
+    const packageJsonTemplate = fs.readFileSync(
+        path.join(__dirname, 'template', 'package.json'),
+        'utf8'
+    );
+    const updatedPackageJson = packageJsonTemplate.replace(
+        '{{PROJECT_NAME}}',
+        projectName
+    );
+    fs.writeFileSync(packageJsonPath, updatedPackageJson);
+}
+
 copyRecursiveSync(path.join(__dirname, 'template'), projectPath);
+updatePackageJson(projectPath, projectName);
 
 async function setupProject() {
     const htmxPath = path.join(projectPath, 'public', 'htmx.min.js');
@@ -71,12 +85,12 @@ async function setupProject() {
         process.exit(1);
     }
 
-    execSync('npm install express', { cwd: projectPath, stdio: 'inherit' });
+    execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
 
     console.log(`Project ${projectName} created successfully.`);
     console.log(`Run the following commands to get started:`);
     console.log(`cd ${projectName}`);
-    console.log(`node src/index.js`);
+    console.log(`npm start`);
 }
 
 setupProject();
